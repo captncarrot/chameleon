@@ -1,0 +1,7 @@
+*.~*
+*.??~
+*.bak
+*.ncb
+*.suo
+*.user
+var
