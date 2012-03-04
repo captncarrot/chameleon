@@ -6,7 +6,6 @@
 #define EXECUTE_H
 
 #include <stdio.h>
-#include "chameleon.h"
 
 int execute(char **argv,
             const char *path_stdout,

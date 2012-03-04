@@ -1,13 +1,7 @@
-#include <unistd.h>
-#include <time.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
-#include <stdio.h>
-#include <errno.h>
+#include "config.h"
 
-#include <sys/stat.h>
-#include <sys/time.h>
+#include <string.h>
+#include <stdlib.h>
 
 #include "chameleon.h"
 #include "util.h"
@@ -15,16 +9,16 @@
 
 //====================================================================================
 
-#define HAVE_GETTIMEOFDAY
-#define HAVE_STRNDUP
-
-//====================================================================================
-
-FILE *logfile;
 char *logfile_name = 0;
+
+/* current working directory taken from $PWD, or getcwd() if $PWD is bad */
 char *current_working_dir = NULL;
 
-//====================================================================================
+/* the base cache directory */
+char *cache_dir = NULL;
+
+/* the debug logfile name, if set */
+char *cache_logfile = NULL;
 
 //====================================================================================
 
@@ -56,13 +50,13 @@ int main(int argc, char **argv)
 
   const char *name = master;
   char *pc;
-  while (NULL != (pc = strstr(name, sep) ))
+  while (NULL != (pc = strstr(name, sep)))
     name = pc + 1;
 
 #ifdef __WIN32__
   const unsigned l = strlen(name);
   if (strcasecmp(name + l -4, ".exe") == 0)
-    name[l - 4] = 0;
+  name[l - 4] = 0;
 #endif
 
   return 0;
