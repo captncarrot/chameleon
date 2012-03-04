@@ -106,6 +106,18 @@
 				RelativePath="..\chameleon.c"
 				>
 			</File>
+			<File
+				RelativePath="..\execute.c"
+				>
+			</File>
+			<File
+				RelativePath="..\getopt_long.c"
+				>
+			</File>
+			<File
+				RelativePath="..\util.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
