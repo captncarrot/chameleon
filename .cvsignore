@@ -9,6 +9,7 @@ cr
 *.dsk
 *.exe
 gd
+.git
 gr
 hostname
 Makefile
@@ -18,4 +19,3 @@ stamp-h1
 *.tpu
 var
 *.wbk
-.git
