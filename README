@@ -1,1 +1,9 @@
-Start an real application using a chameleon application under the same name and a configuration file.
+Start an real application using a chameleon application under the same name and a configuration
+file.
+
+## Environment variables ##
+
+  * CHAMELEON_DETECT_SHEBANG
+  * CHAMELEON_LOGFILE
+  * CHAMELEON_DISABLE
+  * CHAMELEON_PATH / PATH
