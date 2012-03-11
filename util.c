@@ -23,10 +23,6 @@
 
 #include "config.h"
 
-#include "util.h"
-#include "execute.h"
-#include "chameleon.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,6 +31,10 @@
 #include <time.h>
 #include <unistd.h>
 #include <fcntl.h>
+
+#include "util.h"
+#include "execute.h"
+#include "chameleon.h"
 
 #ifdef HAVE_PWD_H
 #include <pwd.h>
@@ -56,17 +56,17 @@ static FILE *logfile;
 
 static bool init_log(void)
 {
-  extern char *cache_logfile;
+  extern char *chameleon_logfile;
 
   if (logfile)
   {
     return true;
   }
-  if (!cache_logfile)
+  if (!chameleon_logfile)
   {
     return false;
   }
-  logfile = fopen(cache_logfile, "a");
+  logfile = fopen(chameleon_logfile, "a");
   if (logfile)
   {
     return true;

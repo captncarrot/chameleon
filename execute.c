@@ -132,7 +132,7 @@ win32execute(char *path, char **argv, int doreturn,
   ext = get_extension(path);
   if (ext && strcasecmp(ext, ".sh") == 0 && (path_env = getenv("PATH")))
   sh = find_executable_in_path("sh.exe", NULL, path_env);
-  if (!sh && getenv("CCACHE_DETECT_SHEBANG"))
+  if (!sh && getenv("CHAMELEON_DETECT_SHEBANG"))
   {
     /* Detect shebang. */
     FILE *fp;
@@ -207,23 +207,29 @@ int execute(char **argv, const char *path_stdout, const char *path_stderr)
   {
     int fd;
 
-    tmp_unlink(path_stdout);
-    fd = open(path_stdout, O_WRONLY | O_CREAT | O_TRUNC | O_EXCL | O_BINARY, 0666);
-    if (fd == -1)
+    if (path_stdout)
     {
-      exit(1);
+      tmp_unlink(path_stdout);
+      fd = open(path_stdout, O_WRONLY | O_CREAT | O_TRUNC | O_EXCL | O_BINARY, 0666);
+      if (fd == -1)
+      {
+        exit(1);
+      }
+      dup2(fd, 1);
+      close(fd);
     }
-    dup2(fd, 1);
-    close(fd);
 
-    tmp_unlink(path_stderr);
-    fd = open(path_stderr, O_WRONLY | O_CREAT | O_TRUNC | O_EXCL | O_BINARY, 0666);
-    if (fd == -1)
+    if (path_stderr)
     {
-      exit(1);
+      tmp_unlink(path_stderr);
+      fd = open(path_stderr, O_WRONLY | O_CREAT | O_TRUNC | O_EXCL | O_BINARY, 0666);
+      if (fd == -1)
+      {
+        exit(1);
+      }
+      dup2(fd, 2);
+      close(fd);
     }
-    dup2(fd, 2);
-    close(fd);
 
     exit(execv(argv[0], argv));
   }
@@ -256,11 +262,12 @@ find_executable(const char *name, const char *exclude_name)
     return x_strdup(name);
   }
 
-  path = getenv("CCACHE_PATH");
+  path = getenv("CHAMELEON_PATH");
   if (!path)
   {
     path = getenv("PATH");
   }
+
   if (!path)
   {
     cc_log("No PATH variable");
@@ -310,7 +317,7 @@ find_executable_in_path(const char *name, const char *exclude_name, char *path)
           char *p = basename(buf);
           if (str_eq(p, exclude_name))
           {
-            /* It's a link to "ccache"! */
+            /* It's a link to "chameleon"! */
             free(p);
             free(buf);
             continue;
